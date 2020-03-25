@@ -1,0 +1,6 @@
+settings:
+  cron:
+    info: 0 0-5 13 * * ?
+
+server:
+  port: 8070
