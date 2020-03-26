@@ -6,10 +6,7 @@ import com.ere.rabbit.producer.service.ProcessingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +27,7 @@ public class DocsController {
     private ConcurrentHashMap<String, Document> concurrentHashMap = new ConcurrentHashMap<>();
 
     @PostMapping
-    public ResponseEntity<?> addDocument(@PathVariable InfoDocument infoDocument) {
+    public ResponseEntity<?> addDocument(@RequestBody InfoDocument infoDocument) {
         concurrentHashMap.put(infoDocument.getType(), infoDocument);
         processingService.addToQueue(infoDocument);
         return ResponseEntity.accepted().body("accepted: " + infoDocument.getId());

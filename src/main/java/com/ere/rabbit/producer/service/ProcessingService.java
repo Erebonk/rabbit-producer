@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Slf4j
@@ -20,16 +21,13 @@ public class ProcessingService {
 
     public void addToQueue(Document document) {
         if (document.getType().equals("info")) {
-            if (infoDocuments.size() >= 1000) {
-                rabbitTemplate.convertAndSend("document-queue-saved", document);
+            if (infoDocuments.size() <= 1000) {
+                infoDocuments.offer((InfoDocument) document);
+                rabbitTemplate.convertAndSend("document-queue-saved", infoDocuments);
                 infoDocuments.clear();
             } else
                 infoDocuments.offer((InfoDocument) document);
         }
-    }
-
-    public int getInfoDocsQueueSize() {
-        return infoDocuments.size();
     }
 
 }
