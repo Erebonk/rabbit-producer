@@ -1,6 +1,5 @@
 package com.ere.rabbit.producer.controller;
 
-import com.ere.rabbit.producer.domain.Document;
 import com.ere.rabbit.producer.domain.InfoDocument;
 import com.ere.rabbit.producer.service.ProcessingService;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +23,8 @@ public class DocsController {
 
     private final ProcessingService processingService;
 
-    private ConcurrentHashMap<String, Document> concurrentHashMap = new ConcurrentHashMap<>();
-
     @PostMapping
     public ResponseEntity<?> addDocument(@RequestBody InfoDocument infoDocument) {
-        concurrentHashMap.put(infoDocument.getType(), infoDocument);
         processingService.addToQueue(infoDocument);
         return ResponseEntity.accepted().body("accepted: " + infoDocument.getId());
     }

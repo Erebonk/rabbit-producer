@@ -1,5 +1,7 @@
 package com.ere.rabbit.producer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class InfoDocument extends Document implements Serializable {
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, scope = InfoDocument.class)
+public class InfoDocument implements Serializable {
 
     private String id;
 

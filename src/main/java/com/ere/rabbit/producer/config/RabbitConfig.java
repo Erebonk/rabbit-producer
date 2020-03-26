@@ -63,25 +63,25 @@ public class RabbitConfig {
         return new Queue("document-queue-find");
     }
 
-    @Bean
-    public MessageConverter converter() {
-        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setJavaTypeMapper(new DefaultJackson2JavaTypeMapper() {
-
-            @Override
-            public JavaType toJavaType(MessageProperties properties) {
-                JavaType javaType = super.toJavaType(properties);
-                if (javaType instanceof CollectionLikeType) {
-                    return TypeFactory.defaultInstance()
-                            .constructCollectionLikeType(ConcurrentLinkedQueue.class, InfoDocument.class);
-                }
-                else {
-                    return javaType;
-                }
-            }
-
-        });
-        return converter;
-    }
+//    @Bean
+//    public MessageConverter converter() {
+//        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
+//        converter.setJavaTypeMapper(new DefaultJackson2JavaTypeMapper() {
+//
+//            @Override
+//            public JavaType toJavaType(MessageProperties properties) {
+//                JavaType javaType = super.toJavaType(properties);
+//                if (javaType instanceof CollectionLikeType) {
+//                    return TypeFactory.defaultInstance()
+//                            .constructCollectionLikeType(ConcurrentLinkedQueue.class, InfoDocument.class);
+//                }
+//                else {
+//                    return javaType;
+//                }
+//            }
+//
+//        });
+//        return converter;
+//    }
 
 }
