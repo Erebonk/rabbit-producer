@@ -8,22 +8,35 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Processing service with rabbit mq
+ *
+ * @author ilya
+ * @version 1.1
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProcessingService {
+public class QueueProcessingService {
 
     private final RabbitTemplate rabbitTemplate;
 
     private ConcurrentLinkedQueue<InfoDocument> infoDocuments = new ConcurrentLinkedQueue<>();
 
     public void addToQueue(InfoDocument document) {
-        if (infoDocuments.size() <= 1000) {
-            infoDocuments.offer((InfoDocument) document);
-            rabbitTemplate.convertAndSend("document-queue-saved", document);
+        if (infoDocuments.size() >= 1000) {
+            pushToQueue();
             infoDocuments.clear();
         } else
             infoDocuments.offer(document);
+    }
+
+    public int queueSize() {
+        return infoDocuments.size();
+    }
+
+    public void pushToQueue() {
+        rabbitTemplate.convertAndSend("document-queue-saved", infoDocuments);
     }
 
 }

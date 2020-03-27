@@ -1,19 +1,19 @@
 package com.ere.rabbit.producer.controller;
 
 import com.ere.rabbit.producer.domain.InfoDocument;
-import com.ere.rabbit.producer.service.ProcessingService;
+import com.ere.rabbit.producer.domain.annotation.EventsLogger;
+import com.ere.rabbit.producer.service.QueueProcessingService;
+import com.ere.rabbit.producer.service.RabbitDocsInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * Product controller
  *
  * @author ilya
- * @version 1.1
+ * @version 1.2
  */
 @Slf4j
 @RestController
@@ -21,20 +21,20 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class DocsController {
 
-    private final ProcessingService processingService;
+    private final QueueProcessingService queueProcessingService;
+    private final RabbitDocsInfoService rabbitDocsInfoService;
 
     @PostMapping
     public ResponseEntity<?> addDocument(@RequestBody InfoDocument infoDocument) {
-        processingService.addToQueue(infoDocument);
+        queueProcessingService.addToQueue(infoDocument);
+        log.info("accepted: " + infoDocument);
         return ResponseEntity.accepted().body("accepted: " + infoDocument.getId());
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getInfo(@RequestParam("id") String id) {
-//        log.info("emit to queue");
-//        var response = rabbitTemplate.convertSendAndReceive("document-queue-find", id);
-//        log.info("response: " + response);
-//        return ResponseEntity.accepted().body(response);
-//    }
+    @GetMapping
+    @EventsLogger
+    public ResponseEntity<?> getInfo(@RequestParam("id") String id) {
+        return ResponseEntity.ok().body(rabbitDocsInfoService.getInfoDocsResult(id));
+    }
 
 }
