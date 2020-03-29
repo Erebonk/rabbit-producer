@@ -1,6 +1,7 @@
 package com.ere.rabbit.producer.service;
 
 import com.ere.rabbit.producer.domain.InfoDocument;
+import com.ere.rabbit.producer.domain.annotation.PushTimeStamp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,22 +22,23 @@ public class QueueProcessingService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private ConcurrentLinkedQueue<InfoDocument> infoDocuments = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<InfoDocument> infoDocumentsQueue = new ConcurrentLinkedQueue<>();
 
     public void addToQueue(InfoDocument document) {
-        if (infoDocuments.size() >= 1000) {
+        if (infoDocumentsQueue.size() >= 1000) {
             pushToQueue();
-            infoDocuments.clear();
+            infoDocumentsQueue.clear();
         } else
-            infoDocuments.offer(document);
+            infoDocumentsQueue.offer(document);
     }
 
     public int queueSize() {
-        return infoDocuments.size();
+        return infoDocumentsQueue.size();
     }
 
+    @PushTimeStamp
     public void pushToQueue() {
-        rabbitTemplate.convertAndSend("document-queue-saved", infoDocuments);
+        rabbitTemplate.convertAndSend("document-queue-saved", infoDocumentsQueue);
     }
 
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * Product controller
  *
  * @author ilya
- * @version 1.2
+ * @version 1.3
  */
 @Slf4j
 @RestController
@@ -28,7 +28,7 @@ public class DocsController {
     public ResponseEntity<?> addDocument(@RequestBody InfoDocument infoDocument) {
         queueProcessingService.addToQueue(infoDocument);
         log.info("accepted: " + infoDocument);
-        return ResponseEntity.accepted().body("accepted: " + infoDocument.getId());
+        return ResponseEntity.accepted().body("accepted: " + infoDocument.getUid());
     }
 
     @GetMapping
