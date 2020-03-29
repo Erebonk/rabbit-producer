@@ -35,7 +35,7 @@ class DocsControllerTest {
     @BeforeEach
     void init() {
         doc = new InfoDocument();
-        doc.setId("1");
+        doc.setUid("1");
         doc.setInfo("new document");
     }
 

@@ -1,29 +1,32 @@
 package com.ere.rabbit.producer.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * Info document
+ * info document
  *
  * @author ilya
- * @version 1.0
+ * @version 1.1
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@EqualsAndHashCode(callSuper = false)
 public class InfoDocument implements Serializable {
 
-    @JsonProperty("id")
-    private String id;
+    @JsonProperty("uid")
+    private String uid;
 
     @JsonProperty("info")
     private String info;
+
+    @JsonProperty("owner")
+    private Owner owner;
 
 }
