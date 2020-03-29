@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -22,6 +23,7 @@ public class QueueProcessingService {
     private final RabbitTemplate rabbitTemplate;
 
     private ConcurrentLinkedQueue<InfoDocument> infoDocuments = new ConcurrentLinkedQueue<>();
+    private volatile LocalDateTime timeStump;
 
     public void addToQueue(InfoDocument document) {
         if (infoDocuments.size() >= 1000) {
@@ -35,8 +37,13 @@ public class QueueProcessingService {
         return infoDocuments.size();
     }
 
+    public LocalDateTime getTimeStump() {
+        return timeStump;
+    }
+
     public void pushToQueue() {
         rabbitTemplate.convertAndSend("document-queue-saved", infoDocuments);
+        timeStump = LocalDateTime.now();
     }
 
 }

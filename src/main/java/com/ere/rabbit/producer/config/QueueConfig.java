@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.time.LocalDateTime;
+
 /**
  * Queue control config
  *
@@ -21,8 +23,9 @@ public class QueueConfig {
 
     @Scheduled(cron = "${settings.cron.info}")
     public void pushQueueToRabbit() {
-        if (queueProcessingService.queueSize() > 0)
-            queueProcessingService.pushToQueue();
+        if (queueProcessingService.getTimeStump().plusMinutes(5).isBefore(LocalDateTime.now()))
+            if (queueProcessingService.queueSize() > 0)
+                queueProcessingService.pushToQueue();
     }
 
 }
