@@ -1,6 +1,7 @@
 package com.ere.rabbit.producer.controller;
 
 import com.ere.rabbit.producer.domain.InfoDocument;
+import com.ere.rabbit.producer.domain.Owner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author ilya
  * @version 1.0
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class DocsControllerTest {
 
@@ -36,6 +37,7 @@ class DocsControllerTest {
     void init() {
         doc = new InfoDocument();
         doc.setUid("1");
+        doc.setOwner(new Owner("Bar", "Barkov"));
         doc.setInfo("new document");
     }
 

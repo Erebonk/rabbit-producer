@@ -4,6 +4,7 @@ import com.ere.rabbit.producer.domain.InfoDocument;
 import com.ere.rabbit.producer.domain.annotation.EventsLogger;
 import com.ere.rabbit.producer.service.QueueProcessingService;
 import com.ere.rabbit.producer.service.RabbitDocsInfoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class DocsController {
     private final RabbitDocsInfoService rabbitDocsInfoService;
 
     @PostMapping
-    public ResponseEntity<?> addDocument(@RequestBody InfoDocument infoDocument) {
+    public ResponseEntity<String> addDocument(@RequestBody InfoDocument infoDocument) throws JsonProcessingException {
         queueProcessingService.addToQueue(infoDocument);
         log.info("accepted: " + infoDocument);
         return ResponseEntity.accepted().body("accepted: " + infoDocument.getUid());

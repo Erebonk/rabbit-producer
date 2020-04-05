@@ -2,8 +2,12 @@ package com.ere.rabbit.producer.config;
 
 import com.ere.rabbit.producer.service.QueueProcessingService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,9 +28,9 @@ public class QueueConfig {
 
     private final QueueProcessingService queueProcessingService;
 
-    private LocalDateTime pushTime;
+    private LocalDateTime pushTime = LocalDateTime.now();
 
-    @AfterReturning(value = "@annotation(com.ere.rabbit.producer.domain.annotation.PushTimeStamp)")
+    @Before(value = "@annotation(com.ere.rabbit.producer.domain.annotation.PushTimeStamp)")
     public void proceedPushQueueEvent() {
         pushTime = LocalDateTime.now();
     }

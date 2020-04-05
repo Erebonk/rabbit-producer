@@ -1,6 +1,21 @@
 settings:
   cron:
-    info: 0 0-5 13 * * ?
+    info: 0 1 * * * ?
 
 server:
   port: 8070
+  tomcat:
+    max-connections: 9000
+    max-threads: 550
+    max-http-form-post-size: 20MB
+
+spring:
+  cache:
+    redis:
+      key-prefix: rp-
+      time-to-live: 600000
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 6000
+    client-name: docProd
