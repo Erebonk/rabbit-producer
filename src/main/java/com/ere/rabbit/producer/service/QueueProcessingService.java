@@ -31,7 +31,7 @@ public class QueueProcessingService {
     public void addToQueue(InfoDocument document) {
         pushToCache(document);
         if (infoDocumentsQueue.size() >= 1000)
-            infoDocumentsQueue.clear();
+            pushToQueue();
         infoDocumentsQueue.offer(document);
     }
 
