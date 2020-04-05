@@ -2,7 +2,6 @@ package com.ere.rabbit.producer.config;
 
 import com.ere.rabbit.producer.service.QueueProcessingService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Configuration;
