@@ -28,16 +28,10 @@ public class QueueProcessingService {
 
     private ConcurrentLinkedQueue<InfoDocument> infoDocumentsQueue = new ConcurrentLinkedQueue<>();
 
-    public void addToQueue(InfoDocument document) throws JsonProcessingException {
-        redisTemplate.opsForHash()
-                .put(
-                        String.join("/", document.getOwner().toString(), document.getUid()),
-                        String.valueOf(document.hashCode()),
-                        new ObjectMapper().writeValueAsString(document));
-        if (infoDocumentsQueue.size() >= 1000) {
-            pushToQueue();
+    public void addToQueue(InfoDocument document) {
+        pushToCache(document);
+        if (infoDocumentsQueue.size() >= 1000)
             infoDocumentsQueue.clear();
-        }
         infoDocumentsQueue.offer(document);
     }
 
@@ -45,9 +39,21 @@ public class QueueProcessingService {
         return infoDocumentsQueue.size();
     }
 
+    private void pushToCache(InfoDocument document) {
+        try {
+            redisTemplate.opsForHash()
+                    .put(String.join("/", document.getOwner().toString(), document.getUid()),
+                            String.valueOf(document.hashCode()),
+                            new ObjectMapper().writeValueAsString(document));
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+        }
+    }
+
     @PushTimeStamp
     public void pushToQueue() {
         rabbitTemplate.convertAndSend("document-queue-saved", infoDocumentsQueue);
+        infoDocumentsQueue.clear();
     }
 
 }

@@ -4,8 +4,10 @@ import com.ere.rabbit.producer.domain.InfoDocument;
 import com.ere.rabbit.producer.domain.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -33,7 +35,8 @@ import static java.util.stream.Collectors.toList;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DocsControllerIntegrationTestQueueTest {
 
-    TestRestTemplate testRestTemplate;
+    @Autowired
+    RedisTemplate<String, String> redisTemplate;
 
     String url;
 
@@ -52,7 +55,6 @@ class DocsControllerIntegrationTestQueueTest {
 
     @BeforeEach
     void init() {
-        testRestTemplate = new TestRestTemplate();
         httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -109,31 +111,6 @@ class DocsControllerIntegrationTestQueueTest {
         if (!executor.awaitTermination(3, TimeUnit.MINUTES)) {
             executor.shutdownNow();
         }
-
-
-
-
-
-
-//
-//
-//        var queue = queueProcessingService.getInfoDocumentsQueue();
-//        var groupDocs = queue.stream()
-//                .collect(Collectors.groupingBy(InfoDocument::getOwner));
-//        var firstOwnerDocs = groupDocs.get(pOwner);
-//        assertSame(firstOwnerDocs.size(), 2450);
-//        firstList.forEach(infoDocument ->
-//                assertTrue(firstOwnerDocs.contains(infoDocument)));
-//
-//        var secondOwnerDocs = groupDocs.get(sOwner);
-//        assertSame(secondOwnerDocs.size(), 32432);
-//        secondList.forEach(infoDocument ->
-//                assertTrue(secondOwnerDocs.contains(infoDocument)));
-//
-//        var thirdOwnerDocs = groupDocs.get(dOwner);
-//        assertSame(thirdOwnerDocs.size(), 54123);
-//        thirdList.forEach(infoDocument ->
-//                assertTrue(thirdOwnerDocs.contains(infoDocument)));
     }
 
     @Test

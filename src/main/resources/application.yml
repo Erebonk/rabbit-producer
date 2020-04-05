@@ -1,6 +1,6 @@
 settings:
   cron:
-    info: 0 1 * * * ?
+    push: 0 * * * * ?
 
 server:
   port: 8070
@@ -13,7 +13,7 @@ spring:
   cache:
     redis:
       key-prefix: rp-
-      time-to-live: 600000
+      time-to-live: 60000
   redis:
     host: localhost
     port: 6379
