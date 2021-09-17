@@ -1,6 +1,6 @@
-package com.ere.rabbit.producer.config;
+package com.ere.rabbit.documentProducer.config;
 
-import com.ere.rabbit.producer.service.QueueProcessingService;
+import com.ere.rabbit.documentProducer.service.QueueProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 
 /**
  * Queue control config
- *
- * @author ilya
  * @version 1.1
  */
 @Aspect
@@ -25,6 +23,7 @@ public class QueueConfig {
     private final QueueProcessingService queueProcessingService;
 
     private LocalDateTime pushTime = LocalDateTime.now();
+    private final int plusTime = 5;
 
     @After(value = "@annotation(com.ere.rabbit.producer.domain.annotation.PushTimeStamp)")
     public void proceedPushQueueEvent() {
@@ -33,9 +32,8 @@ public class QueueConfig {
 
     @Scheduled(cron = "${settings.cron.push}")
     public void pushQueueToRabbit() {
-        if (pushTime.plusMinutes(5).isBefore(LocalDateTime.now()))
+        if (pushTime.plusMinutes(plusTime).isBefore(LocalDateTime.now()))
             if (queueProcessingService.queueSize() > 0)
                 queueProcessingService.pushToQueue();
     }
-
 }

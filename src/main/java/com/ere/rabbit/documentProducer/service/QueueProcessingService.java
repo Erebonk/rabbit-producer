@@ -1,7 +1,7 @@
-package com.ere.rabbit.producer.service;
+package com.ere.rabbit.documentProducer.service;
 
-import com.ere.rabbit.producer.domain.InfoDocument;
-import com.ere.rabbit.producer.domain.annotation.PushTimeStamp;
+import com.ere.rabbit.documentProducer.domain.InfoDocument;
+import com.ere.rabbit.documentProducer.domain.annotation.PushTimeStamp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Processing service with rabbit mq
- *
- * @author ilya
  * @version 1.3
  */
 @Slf4j

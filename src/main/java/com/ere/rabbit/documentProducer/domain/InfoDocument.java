@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer.domain;
+package com.ere.rabbit.documentProducer.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,14 +11,12 @@ import java.io.Serializable;
 
 /**
  * info document
- *
- * @author ilya
- * @version 1.1
+ ** @version 1.1
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 public class InfoDocument implements Serializable {
 
     @JsonProperty("uid")

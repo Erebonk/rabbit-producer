@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer.domain;
+package com.ere.rabbit.documentProducer.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -9,8 +9,6 @@ import java.io.Serializable;
 
 /**
  * Owner info
- *
- * @author ilya
  * @version 1.0
  */
 @Data

@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer;
+package com.ere.rabbit.documentProducer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

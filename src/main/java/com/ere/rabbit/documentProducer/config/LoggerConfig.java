@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer.config;
+package com.ere.rabbit.documentProducer.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

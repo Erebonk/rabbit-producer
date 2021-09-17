@@ -1,9 +1,9 @@
-package com.ere.rabbit.producer.controller;
+package com.ere.rabbit.documentProducer.controller;
 
-import com.ere.rabbit.producer.domain.InfoDocument;
-import com.ere.rabbit.producer.domain.annotation.EventsLogger;
-import com.ere.rabbit.producer.service.QueueProcessingService;
-import com.ere.rabbit.producer.service.RabbitDocsInfoService;
+import com.ere.rabbit.documentProducer.domain.InfoDocument;
+import com.ere.rabbit.documentProducer.domain.annotation.EventsLogger;
+import com.ere.rabbit.documentProducer.service.QueueProcessingService;
+import com.ere.rabbit.documentProducer.service.RabbitDocsInfoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Product controller
- *
- * @author ilya
  * @version 1.3
  */
 @Slf4j

@@ -1,7 +1,7 @@
-package com.ere.rabbit.producer.controller;
+package com.ere.rabbit.documentProducer.controller;
 
-import com.ere.rabbit.producer.domain.InfoDocument;
-import com.ere.rabbit.producer.domain.Owner;
+import com.ere.rabbit.documentProducer.domain.InfoDocument;
+import com.ere.rabbit.documentProducer.domain.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

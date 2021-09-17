@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer.service;
+package com.ere.rabbit.documentProducer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service for get info about document
- *
- * @author ilya
  * @version 1.0
  */
 @Service
@@ -19,5 +17,4 @@ public class RabbitDocsInfoService {
     public Object getInfoDocsResult(String id) {
         return rabbitTemplate.convertSendAndReceive("document-queue-find", id);
     }
-
 }

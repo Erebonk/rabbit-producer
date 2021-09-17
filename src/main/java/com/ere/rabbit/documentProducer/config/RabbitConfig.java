@@ -1,4 +1,4 @@
-package com.ere.rabbit.producer.config;
+package com.ere.rabbit.documentProducer.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
@@ -13,19 +13,24 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Rabbit configuration
- *
- * @author ilya
  * @version 1.1
  */
 @EnableRabbit
 @Configuration
 public class RabbitConfig {
 
+    private final int connectionTimeout = 60 * 1000;
+    private final int closeTimeout = 60 * 1000;
+    private final String host = "localhost";
+    private final String topicExchange = "document-topic";
+    private final String docQueue = "document-queue-saved";
+    private final String findQueue = "document-queue-find";
+
     @Bean
     public CachingConnectionFactory connectionFactory() {
-        CachingConnectionFactory factory = new CachingConnectionFactory("localhost");
-        factory.setConnectionTimeout(60 * 1000);
-        factory.setCloseTimeout(60 * 1000);
+        CachingConnectionFactory factory = new CachingConnectionFactory(host);
+        factory.setConnectionTimeout(connectionTimeout);
+        factory.setCloseTimeout(closeTimeout);
         return factory;
     }
 
@@ -44,18 +49,16 @@ public class RabbitConfig {
 
     @Bean
     public TopicExchange topicExchange() {
-        return new TopicExchange("document-topic");
+        return new TopicExchange(topicExchange);
     }
 
     @Bean
     public Queue documentQueue() {
-        return new Queue("document-queue-saved");
+        return new Queue(docQueue);
     }
 
     @Bean
-    public Queue findDocQueue() {
-        return new Queue("document-queue-find");
-    }
+    public Queue findDocQueue() { return new Queue(findQueue); }
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
